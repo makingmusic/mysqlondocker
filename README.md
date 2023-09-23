@@ -12,7 +12,19 @@ docker exec -it mcont bash
 file location: /etc/mysql/mysql.conf.d
 change line to:
 bind-address            = 0.0.0.0
+## verify bind-address
+mysql> show variables like '%bind%';
++---------------------+-----------+
+| Variable_name       | Value     |
++---------------------+-----------+
+| bind_address        | 0.0.0.0   |
+| mysqlx_bind_address | 127.0.0.1 |
++---------------------+-----------+
 
-# mysql database schema
-CREATE USER 'username'@'%' IDENTIFIED by 'password'
+# basic mysql schema setup
+## database schema
+create database persons;
+use persons;
+create table persons (name varchar(255), age int);
+CREATE USER 'username'@'%' IDENTIFIED by 'password';
 
