@@ -12,3 +12,7 @@ docker exec -it mcont bash
 file location: /etc/mysql/mysql.conf.d
 change line to:
 bind-address            = 0.0.0.0
+
+# mysql database schema
+CREATE USER 'username'@'%' IDENTIFIED by 'password'
+
