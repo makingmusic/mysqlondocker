@@ -1,0 +1,15 @@
+version: "3.8"
+volumes:
+  dbstore:
+    external: true
+
+services:
+  merasqlservice:
+   tty: true
+   ports:
+     - 127.0.0.1:3306:3306
+   image: merasqlimage
+   container_name: mcont
+   command: ["bash", "/mysql/start.sh"]
+   volumes:
+     - dbstore:/mysql
