@@ -16,20 +16,20 @@ docker compose -f compose-merasql.yaml up
 _**now go to the docker container and run some setup commands there**_
 docker exec -it mcont bash (this should probably be replaced by a file that will contain all the commands needed. )
 
-===container script (setup.sh)===
+=== container script (setup.sh) ===
 -- install mysql
 apt install mysql-server curl vim wget systemctl 
 docker cp mysqld.cnf start.sh from github -> container
 mysql_secure_installation (setup password for root)
-===end container script===
+=== end container script ===
 
-===host script===
+=== host script ===
 now run this docker commit #save the committed image
 docker tag #tag that image with some name
 docker compose -f compose-merasql.yaml down
 create start_mysql to start mysql container
 create stop_mysql to stop mysql container 
-=== end host script===
+=== end host script ===
 
 
 
