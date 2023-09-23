@@ -7,3 +7,8 @@ a basic mysql server on docker
 
 docker compose -f compose-merasql.yaml up
 docker exec -it mcont bash
+
+# mysql bind-address settings that are needed on the container so it is bound to all IP addresses, instead of the unix socket alone.
+file location: /etc/mysql/mysql.conf.d
+change line to:
+bind-address            = 0.0.0.0
