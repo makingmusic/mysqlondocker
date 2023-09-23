@@ -1,17 +1,46 @@
-# mysqlondocker
-a basic mysql server on docker
+### mysqlondocker
+a basic mysql server on docker. this doc is the steps required for the setup
 
-# notes, i.e. random commands that i need to run
-# i still need to compile this entire repo in to a self-sufficient set of files
-# ideally, one command and the entire thing is setup. not there, yet.
 
+### setup docker image
+here i should write the automation for setting up the container, Dockerfile
+- make sure you have the following files checked out:
+  - compose-merasql.yaml
+  - mysqld.conf
+- 
+
+docker pull ubuntu
+docker volume create mydbstorage (todo - make sure name matches with the one in compose-yaml file)
 docker compose -f compose-merasql.yaml up
-docker exec -it mcont bash
+
+_**now go to the docker container and run some setup commands there**_
+docker exec -it mcont bash (this should probably be replaced by a file that will contain all the commands needed. )
+
+===container script (setup.sh)===
+-- install mysql
+apt install mysql-server curl vim wget systemctl 
+docker cp mysqld.cnf start.sh from github -> container
+mysql_secure_installation (setup password for root)
+===end container script===
+
+===host script===
+now run this docker commit #save the committed image
+docker tag #tag that image with some name
+docker compose -f compose-merasql.yaml down
+create start_mysql to start mysql container
+create stop_mysql to stop mysql container 
+=== end host script===
+
+
+
+# mysql specific matters
+systemctl status mysql
 
 # mysql bind-address settings that are needed on the container so it is bound to all IP addresses, instead of the unix socket alone.
 file location: /etc/mysql/mysql.conf.d
 change line to:
 bind-address            = 0.0.0.0
+
 ## verify bind-address
 mysql> show variables like '%bind%';
 +---------------------+-----------+
