@@ -2,13 +2,15 @@
 a basic mysql server on docker. this doc is the steps required for the setup
 
 ### starter.sh ###
+docker build . -t merasqlimage
+docker compose -f compose-merasql.yaml up
+
 here i should write the automation for setting up the container, Dockerfile
 - make sure you have the following files checked out:
   - compose-merasql.yaml
   - mysqld.conf
 docker pull ubuntu
 docker volume create mydbstorage (todo - make sure name matches with the one in compose-yaml file)
-docker compose -f compose-merasql.yaml up
 
 _**now go to the docker container and run some setup commands there**_
 docker exec -it mcont bashscript (this should probably be replaced by a file that will contain all the commands needed. )
