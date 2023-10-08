@@ -32,6 +32,7 @@ there is a command called mysqladmin (https://dev.mysql.com/doc/refman/8.0/en/my
 
 ### for my own reference: some basic commands and reference items below this line ###
 ## verify bind-address
+```
 mysql> show variables like '%bind%';
 +---------------------+-----------+
 | Variable_name       | Value     |
@@ -39,3 +40,4 @@ mysql> show variables like '%bind%';
 | bind_address        | 0.0.0.0   |
 | mysqlx_bind_address | 127.0.0.1 |
 +---------------------+-----------+
+```
