@@ -1,11 +1,12 @@
 #!/usr/bin/bash
 
-echo "napping for two seconds"
-sleep 2
 echo "starting the mysql server"
+systemctl status mysql
 systemctl start mysql
-sleep 2
+echo "setting up the sql server"
+mysql -u root < mysqlsetup.sql
+echo "making sure the server starts"
 systemctl start mysql
-echo "ready to go"
+systemctl status mysql
 echo "now tailing dev null till the end of time"
 tail -f /dev/null

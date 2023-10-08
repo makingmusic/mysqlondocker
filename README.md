@@ -1,45 +1,36 @@
-### mysqlondocker
-a basic mysql server on docker. this doc is the steps required for the setup
+# mysqlondocker
+a basic mysql server on docker. the primary audience is people who want a simple, lightweight mysql server on their systems for testing or learning. if you set it up on Docker, you can keep your OS installation "clean"
 
-### starter.sh ###
-- docker build . -t merasqlimage
-- docker compose -f compose-merasql.yaml up --build
+### description of all files below ###
 
-here i should write the automation for setting up the container, Dockerfile
-- make sure you have the following files checked out:
-  - compose-merasql.yaml
-  - mysqld.conf
-docker pull ubuntu
-docker volume create mydbstorage (todo - make sure name matches with the one in compose-yaml file)
+### scriptzero.sh ###
+use this script to start everything. it will 
+- clean up previous docker stuff if it exists
+- get the repo from git, 
+- build the docker image from scratch
+- bring up the docker image
 
-_**now go to the docker container and run some setup commands there**_
-docker exec -it mcont bashscript (this should probably be replaced by a file that will contain all the commands needed. )
+### Dockerfile ###
+- copies the mysqld.cnf to fix the bind address so the docker mysql is accessible from outside
+- creates the user
+- creates the database to be used by the application
+much of this is hardcoded today, and in the next versions this part can use docker secrets. I have not been able to figure all out yet but will put it here when I do. For now, just change the text in this file to setup your credentials and the initial schema that you want to work with.
 
-=== container script (setup.sh) ===
--- install mysql
-apt install mysql-server curl vim wget systemctl 
-docker cp mysqld.cnf start.sh from github -> container
-mysql_secure_installation (setup password for root)
-=== end container script ===
+### start_in_container.sh ###
+the stuff that the container runs when it starts
+- start mysql server
+- run the mysqlsetup.sql file as root to set things up
 
-=== host script ===
-now run this docker commit #save the committed image
-docker tag #tag that image with some name
-docker compose -f compose-merasql.yaml down
-create start_mysql to start mysql container
-create stop_mysql to stop mysql container 
-=== end host script ===
+### mysqlsetup.sql ### 
+the actual mysql commands. these are used by the first start_in_container.sh script to set things up for the first time on mysql
 
+### mysqld.cnf ###
+all it does for now is change the bind-address so that mysql binds to all available interfaces.
+in future, it should change to a command line so that the entire file need not be uploaded as is and only the bind-address is changed. 
+there is a command called mysqladmin (https://dev.mysql.com/doc/refman/8.0/en/mysqladmin.html) which i could look into to upgrade this part.
 
 
-# mysql specific matters
-systemctl status mysql
-
-# mysql bind-address settings that are needed on the container so it is bound to all IP addresses, instead of the unix socket alone.
-file location: /etc/mysql/mysql.conf.d
-change line to:
-bind-address            = 0.0.0.0
-
+### for my own reference: some basic commands and reference items below this line ###
 ## verify bind-address
 mysql> show variables like '%bind%';
 +---------------------+-----------+
@@ -48,11 +39,3 @@ mysql> show variables like '%bind%';
 | bind_address        | 0.0.0.0   |
 | mysqlx_bind_address | 127.0.0.1 |
 +---------------------+-----------+
-
-# basic mysql schema setup
-## database schema
-create database persons;
-use persons;
-create table persons (name varchar(255), age int);
-CREATE USER 'username'@'%' IDENTIFIED by 'password';
-
