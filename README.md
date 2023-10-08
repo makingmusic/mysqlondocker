@@ -3,12 +3,17 @@ a basic mysql server on docker. the primary audience is people who want a simple
 
 ### description of all files below ###
 
+### names
+docker image name: merasqlimage # see compose-merasql.yaml 
+docker volume name: dbstore # see scriptzero.sh and compose-merasql.yaml
+docker container name: mcont # see compose-merasql.yaml 
+
 ### scriptzero.sh ###
-use this script to start everything. it will 
+Start here. use this script to start everything. it will 
 - clean up previous docker stuff if it exists
 - get the repo from git, 
-- build the docker image from scratch
-- bring up the docker image
+- build the docker image named merasqlimage from scratch
+- bring up the docker image in a container named mcont
 
 ### Dockerfile ###
 - copies the mysqld.cnf to fix the bind address so the docker mysql is accessible from outside
